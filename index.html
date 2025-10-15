@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FuelWatch - 유가정보 대시보드</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Netflix+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Netflix Style Navigation -->
+    <nav class="netflix-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-gas-pump"></i>
+                <span class="brand-text">FuelWatch</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#dashboard" class="nav-link active">대시보드</a>
+            </div>
+            <div class="nav-actions">
+                <div class="last-update">
+                    <i class="fas fa-clock"></i>
+                    <span id="lastUpdate">-</span>
+                </div>
+                <button class="refresh-btn" onclick="loadInitialData()">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">실시간 유가 정보</h1>
+            <p class="hero-subtitle">전국 주유소 평균 가격을 한눈에 확인하세요</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Current Prices Section -->
+        <section class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">현재 평균 가격</h2>
+                <p class="section-subtitle">전국 주유소 평균 판매가격</p>
+            </div>
+            <div class="price-cards-grid">
+                <div class="price-card gasoline">
+                    <div class="card-background">
+                        <div class="card-gradient"></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3 class="fuel-type">휘발유</h3>
+                            <div class="price-display">
+                                <span class="price" id="gasolinePrice">-</span>
+                                <span class="currency">원/리터</span>
+                            </div>
+                            <div class="price-change" id="gasolineChange">
+                                <span class="change-value">-</span>
+                                <span class="change-percent">-</span>
+                            </div>
+                            <div class="price-range">
+                                <div class="min-price" onclick="showStationInfo('gasoline', 'min')">
+                                    <span class="range-label">최저가</span>
+                                    <span class="range-value" id="gasolineMinPrice">-</span>
+                                </div>
+                                <div class="max-price" onclick="showStationInfo('gasoline', 'max')">
+                                    <span class="range-label">최고가</span>
+                                    <span class="range-value" id="gasolineMaxPrice">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="price-card diesel">
+                    <div class="card-background">
+                        <div class="card-gradient"></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3 class="fuel-type">경유</h3>
+                            <div class="price-display">
+                                <span class="price" id="dieselPrice">-</span>
+                                <span class="currency">원/리터</span>
+                            </div>
+                            <div class="price-change" id="dieselChange">
+                                <span class="change-value">-</span>
+                                <span class="change-percent">-</span>
+                            </div>
+                            <div class="price-range">
+                                <div class="min-price" onclick="showStationInfo('diesel', 'min')">
+                                    <span class="range-label">최저가</span>
+                                    <span class="range-value" id="dieselMinPrice">-</span>
+                                </div>
+                                <div class="max-price" onclick="showStationInfo('diesel', 'max')">
+                                    <span class="range-label">최고가</span>
+                                    <span class="range-value" id="dieselMaxPrice">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="price-card lpg">
+                    <div class="card-background">
+                        <div class="card-gradient"></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3 class="fuel-type">LPG</h3>
+                            <div class="price-display">
+                                <span class="price" id="lpgPrice">-</span>
+                                <span class="currency">원/리터</span>
+                            </div>
+                            <div class="price-change" id="lpgChange">
+                                <span class="change-value">-</span>
+                                <span class="change-percent">-</span>
+                            </div>
+                            <div class="price-range">
+                                <div class="min-price" onclick="showStationInfo('lpg', 'min')">
+                                    <span class="range-label">최저가</span>
+                                    <span class="range-value" id="lpgMinPrice">-</span>
+                                </div>
+                                <div class="max-price" onclick="showStationInfo('lpg', 'max')">
+                                    <span class="range-label">최고가</span>
+                                    <span class="range-value" id="lpgMaxPrice">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Price Chart Section -->
+        <section class="chart-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">유종별 가격 추이</h2>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-container">
+                        <canvas id="priceChart"></canvas>
+                    </div>
+                    <div class="chart-info">
+                        <div class="chart-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">데이터 포인트</span>
+                                <span class="stat-value" id="dataPoints">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">마지막 업데이트</span>
+                                <span class="stat-value" id="lastChartUpdate">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+        <!-- Station Info Modal -->
+        <div id="stationModal" class="station-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modalTitle">주유소 정보</h3>
+                    <button class="modal-close" onclick="closeStationModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="stationInfo">
+                        <div class="station-details">
+                            <div class="station-name" id="stationName">-</div>
+                            <div class="station-address" id="stationAddress">-</div>
+                            <div class="station-brand" id="stationBrand">-</div>
+                            <div class="station-phone" id="stationPhone">-</div>
+                            <div class="station-price" id="stationPrice">-</div>
+                        </div>
+                        <div class="station-map" id="stationMap">
+                            <p>지도 정보를 불러오는 중...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>데이터를 불러오는 중...</p>
+            </div>
+        </div>
+
+        <!-- Connection Guide -->
+        <div class="connection-guide" id="connectionGuide" style="display: none;">
+            <div class="guide-content">
+                <h3><i class="fas fa-info-circle"></i> 올바른 접속 방법</h3>
+                <p>현재 직접 파일을 열고 있습니다. API가 정상 작동하려면 프록시 서버를 통해 접속해야 합니다.</p>
+                <div class="guide-url">
+                    <strong>올바른 주소:</strong> 
+                    <a href="http://localhost:3000" target="_blank">http://localhost:3000</a>
+                </div>
+                <button onclick="this.parentElement.parentElement.style.display='none'" class="guide-close">
+                    <i class="fas fa-times"></i> 닫기
+                </button>
+            </div>
+        </div>
+
+        <!-- Live Server Notice -->
+        <div class="live-server-notice" id="liveServerNotice" style="display: none;">
+            <div class="notice-content">
+                <h3><i class="fas fa-exclamation-triangle"></i> Live Server 사용자 안내</h3>
+                <p>Live Server 포트 5500으로 접속하셨습니다. API가 정상 작동하려면 프록시 서버 포트 3000을 사용해야 합니다.</p>
+                <div class="notice-actions">
+                    <a href="http://localhost:3000" class="notice-link">
+                        <i class="fas fa-external-link-alt"></i> 올바른 서버로 이동
+                    </a>
+                    <button onclick="this.parentElement.parentElement.parentElement.style.display='none'" class="notice-close">
+                        <i class="fas fa-times"></i> 닫기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 즉시 포트 5500 감지 및 리다이렉트
+        (function() {
+            if (window.location.port === '5500' || window.location.hostname === '127.0.0.1') {
+                console.log('Live Server 포트 5500 감지됨. 올바른 포트로 리다이렉트합니다...');
+                
+                // 즉시 리다이렉트
+                window.location.replace('http://localhost:3000');
+                
+                // 리다이렉트 메시지 표시
+                document.body.innerHTML = `
+                    <div style="
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        color: white;
+                        font-family: 'Netflix Sans', sans-serif;
+                        z-index: 99999;
+                    ">
+                        <div style="text-align: center; max-width: 500px; padding: 40px;">
+                            <div style="font-size: 3rem; margin-bottom: 20px;">
+                                <i class="fas fa-sync-alt fa-spin"></i>
+                            </div>
+                            <h1 style="font-size: 2rem; margin-bottom: 20px; color: #e50914;">
+                                올바른 서버로 이동 중...
+                            </h1>
+                            <p style="font-size: 1.2rem; margin-bottom: 30px; color: #999;">
+                                Live Server 포트 5500에서 프록시 서버 포트 3000으로 자동 이동합니다.
+                            </p>
+                            <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                                <p style="margin: 0; font-size: 1rem;">
+                                    <strong>올바른 주소:</strong><br>
+                                    <a href="http://localhost:3000" style="color: #e50914; text-decoration: none; font-size: 1.2rem;">
+                                        http://localhost:3000
+                                    </a>
+                                </p>
+                            </div>
+                            <p style="font-size: 0.9rem; color: #666;">
+                                자동으로 이동되지 않으면 위 링크를 클릭하세요.
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }
+        })();
+    </script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="script.js"></script>
+</body>
+</html>
+
