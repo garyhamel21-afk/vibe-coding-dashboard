@@ -378,9 +378,9 @@ function generateOPINETTestData() {
         const dateStr = date.toISOString().slice(0, 10); // YYYY-MM-DD
         
         // 실제 가격 근처의 변동 데이터 생성
-        const baseGasoline = 1650 + Math.sin(i * 0.5) * 20 + Math.random() * 10;
-        const baseDiesel = 1550 + Math.sin(i * 0.3) * 15 + Math.random() * 8;
-        const baseLPG = 999 + Math.sin(i * 0.7) * 10 + Math.random() * 5;
+        const baseGasoline = 1662 + Math.sin(i * 0.5) * 15 + Math.random() * 8;
+        const baseDiesel = 1535 + Math.sin(i * 0.3) * 12 + Math.random() * 6;
+        const baseLPG = 998 + Math.sin(i * 0.7) * 8 + Math.random() * 4;
         
         testData.push({
             timestamp: date.toISOString(),
@@ -406,12 +406,12 @@ function generateHardcodedData() {
     console.log('📊 하드코딩된 데이터 생성 시작...');
     
     const data = [
-        { date: '2025-10-08', gasoline: 1650, diesel: 1550, lpg: 999 },
-        { date: '2025-10-09', gasoline: 1660, diesel: 1560, lpg: 1004 },
-        { date: '2025-10-10', gasoline: 1670, diesel: 1570, lpg: 1009 },
-        { date: '2025-10-11', gasoline: 1680, diesel: 1580, lpg: 1014 },
-        { date: '2025-10-12', gasoline: 1690, diesel: 1590, lpg: 1019 },
-        { date: '2025-10-13', gasoline: 1700, diesel: 1600, lpg: 1024 },
+        { date: '2025-10-08', gasoline: 1662, diesel: 1535, lpg: 998 },
+        { date: '2025-10-09', gasoline: 1665, diesel: 1538, lpg: 1001 },
+        { date: '2025-10-10', gasoline: 1668, diesel: 1541, lpg: 1004 },
+        { date: '2025-10-11', gasoline: 1671, diesel: 1544, lpg: 1007 },
+        { date: '2025-10-12', gasoline: 1674, diesel: 1547, lpg: 1010 },
+        { date: '2025-10-13', gasoline: 1677, diesel: 1550, lpg: 1013 },
         { date: '2025-10-14', gasoline: 1710, diesel: 1610, lpg: 1029 }
     ];
     
@@ -435,9 +435,9 @@ function generate3HourTestData() {
         
         // 시간대별로 다른 가격 설정
         const hour = time.getHours();
-        const baseGasoline = 1650 + Math.sin(hour * 0.3) * 20 + Math.random() * 10;
-        const baseDiesel = 1550 + Math.sin(hour * 0.2) * 15 + Math.random() * 8;
-        const baseLPG = 999 + Math.sin(hour * 0.4) * 10 + Math.random() * 5;
+        const baseGasoline = 1662 + Math.sin(hour * 0.3) * 15 + Math.random() * 8;
+        const baseDiesel = 1535 + Math.sin(hour * 0.2) * 12 + Math.random() * 6;
+        const baseLPG = 998 + Math.sin(hour * 0.4) * 8 + Math.random() * 4;
         
         data.push({
             timestamp: timestamp,
@@ -865,9 +865,9 @@ function generateSimpleTestData() {
         const dateStr = date.toISOString().slice(0, 10); // YYYY-MM-DD
         
         // 간단한 고정 가격 데이터
-        const gasoline = 1650 + i * 10;
-        const diesel = 1550 + i * 8;
-        const lpg = 999 + i * 5;
+        const gasoline = 1662 + i * 8;
+        const diesel = 1535 + i * 6;
+        const lpg = 998 + i * 4;
         
         testData.push({
             timestamp: date.toISOString(),
@@ -1658,9 +1658,9 @@ function generateTestDataDaily() {
     
     // 실제 유가 데이터 기반으로 변동 생성
     const basePrices = {
-        gasoline: 1650, // 휘발유 기준가
-        diesel: 1550,  // 경유 기준가
-        lpg: 999       // LPG 기준가
+        gasoline: 1662, // 휘발유 기준가
+        diesel: 1535,  // 경유 기준가
+        lpg: 998       // LPG 기준가
     };
     
     for (let i = 0; i < totalDays; i++) {
@@ -1922,25 +1922,22 @@ function generateTestPriceData() {
     const testData = [
         {
             PRODCD: 'B027',
-            PRICE: '1650.50',
-            DIFF: '5.20',
-            DIFF_RATE: '0.32',
+            PRICE: '1662.38',
+            DIFF: '-0.51',
             TRADE_DT: now.toISOString().slice(0, 10).replace(/-/g, ''),
             TRADE_TM: now.toTimeString().slice(0, 8).replace(/:/g, '')
         },
         {
             PRODCD: 'D047',
-            PRICE: '1550.30',
-            DIFF: '-3.10',
-            DIFF_RATE: '-0.20',
+            PRICE: '1535.48',
+            DIFF: '-0.38',
             TRADE_DT: now.toISOString().slice(0, 10).replace(/-/g, ''),
             TRADE_TM: now.toTimeString().slice(0, 8).replace(/:/g, '')
         },
         {
             PRODCD: 'K015',
-            PRICE: '999.80',
-            DIFF: '2.50',
-            DIFF_RATE: '0.25',
+            PRICE: '998.57',
+            DIFF: '-0.31',
             TRADE_DT: now.toISOString().slice(0, 10).replace(/-/g, ''),
             TRADE_TM: now.toTimeString().slice(0, 8).replace(/:/g, '')
         }
@@ -1962,9 +1959,9 @@ function generateTestData() {
         const timestamp = new Date(now.getTime() - (6 - i) * 24 * 60 * 60 * 1000);
         
         // 실제 가격 근처의 변동 데이터 생성
-        const baseGasoline = 1650 + Math.sin(i * 0.1) * 20 + Math.random() * 10;
-        const baseDiesel = 1550 + Math.sin(i * 0.15) * 15 + Math.random() * 8;
-        const baseLPG = 999 + Math.sin(i * 0.2) * 10 + Math.random() * 5;
+        const baseGasoline = 1662 + Math.sin(i * 0.1) * 15 + Math.random() * 8;
+        const baseDiesel = 1535 + Math.sin(i * 0.15) * 12 + Math.random() * 6;
+        const baseLPG = 998 + Math.sin(i * 0.2) * 8 + Math.random() * 4;
         
         testData.push({
             timestamp: timestamp.toISOString(),
