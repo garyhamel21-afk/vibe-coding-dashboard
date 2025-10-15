@@ -980,9 +980,15 @@ async function loadInitialData() {
         });
         
         console.log('API 응답 전체:', response);
+        console.log('API 응답 타입:', typeof response);
+        console.log('API 응답 키들:', Object.keys(response || {}));
         
         if (response && response.RESULT && response.RESULT.OIL) {
             console.log('✅ 초기 가격 데이터 로드 성공:', response.RESULT.OIL);
+            console.log('🔍 각 유종별 데이터:');
+            response.RESULT.OIL.forEach(item => {
+                console.log(`- ${item.PRODCD}: ${item.PRICE}원 (변화: ${item.DIFF}원, ${item.DIFF_RATE}%)`);
+            });
             currentData = response.RESULT.OIL;
             
             // 가격 카드 업데이트
